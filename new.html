@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style.css">
+
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+    <script src="list.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js" integrity="sha384-QJHtvGhmr9XOIpI6YVutG+2QOK9T+ZnN4kzFN1RtK3zEFEIsxhlmWl5/YESvpZ13" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.4/css/fontawesome.min.css" integrity="sha384-jLKHWM3JRmfMU0A5x5AkjWkw/EYfGUAGagvnfryNV3F9VqM98XiIH7VBGVoxVSc7" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <style>
+        button{
+          float: left;
+        }
+    </style>
+</head>
+<body>
+  <div class="container-fluid">
+    <div id="app">
+      <div class="row-cols-auto">
+        <div class="col-auto">
+          <nav class="navbar navbar-expand navbar-light bg-faded">
+            <button v-on:click="showCheckout" class="btn btn-success">Checkout</button>
+              <span style="margin-left: 20px;">
+                <ul class="navbar-nav mr-auto mt-10 mt-lg-0">
+                  
+                  <li class="nav-item">
+                    <button v-on:click="sortAc" >Ascending</button>
+                  </li>
+                  <li class="nav-item">
+                    <button v-on:click="sortPrice" >Price</button>
+                  </li>
+                  <li class="nav-item">
+                    <button v-on:click="sortName" >Name</button>
+                  </li>
+                  <li class="nav-item">
+                    <button v-on:click="sortTitle" >Title</button>
+                  </li>
+                  <li class="nav-item active">
+                    <button v-on:click="sortDc" >Descending</button> 
+                  </li>
+                  
+              </ul>
+              </span>
+              <span style="margin-left: 10px;">
+                <form class="col-md-15 ct-content">
+                  <input class="form-control" type="text" v-model="search" placeholder="Search by Title"/>
+                </form>
+              </span>
+              
+          </nav>
+          <nav>
+            
+           
+           
+            
+            
+            
+            
+                  
+          </nav>
+        </div>
+      </div>
+      
+     
+     
+
+      
+      <div v-if="showProduct">
+        <div class="wrapper">
+          <div class="card" v-for="post in filteredList">
+            <small class="card-text">Price: {{ post.price }}</small>
+              <img class="card-img" v-bind:src="post.image"/>
+              <p class="card-text">Available Quantity: {{post.availableInventory}} <span v-if="post.availableInventory < 1" style="color: red;">Available Quantity Exhausted</span></p>
+              {{ post.title }}
+              <small class="card-text">Location: {{ post.location }}</small>
+              <button class="btn btn-success" v-on:click="addCart(post)">Add to Cart</button>
+              
+            </a>
+          </div>
+        </div>
+      </div>
+      <div v-else>
+        <div class="wrapper">
+          <div class="card" v-for="post in cartItems()">
+              <img class="card-img" v-bind:src="post.image"/>
+              {{ post.title }}
+              <small class="card-text">price: {{ post.price }}</small>
+              <button class="btn btn-danger" v-on:click="removeItem(post.id)">Delete from Cart</button>
+              
+            </a>
+          </div>
+        </div>
+        <form action="new.html">
+          <div class="mb-3" style="margin-top: 40px;">
+            Name:
+            <label for="exampleName" class="form-label"></label>
+            <input type="text" class="form-control" id="exampleName" aria-describedby="nameHelp" required minlength="6" maxlength="45">
+           
+          </div>
+          <div class="mb-3">
+            Phone Number:
+            <label for="number" class="form-label"></label>
+            <input type="Text" class="form-control" id="number" required  maxlength="13">
+          </div>
+         
+          <button type="submit" class="btn btn-success" id="bgnBtn" onclick="promptMe()">Submit</button>
+        </form>
+        
+      </div>
+      
+    </div>
+  </div>
+    
+
+      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>
+<script src="list.js"></script>
+      <Script>
+        function promptMe(){
+    alert ("Happy Shopping...");
+}
+
+const app = new Vue ({
+  el: '#app',
+  data: {
+    search: '',
+    value:true,
+    arrayCart: [],
+    showProduct: true, 
+    postList : list
+  },
+  methods:{
+    sortTitle(){
+      if(this.value ) this.postList.sort(this.sortMethod)
+    },
+    sortPrice(){
+      if(this.value ) this.postList.sort(this.sortMethodPrice)
+    },
+    sortName(){
+      if(this.value ) this.postList.sort(this.sortMethodName)
+    },
+    sortAc(){
+      if(this.value)this.postList.sort(this.sortMethodAc)
+    },
+    sortDc(){
+      if(this.value)this.postList.sort(this.sortMethodDc)
+    },
+    addCart(post){
+      if (post.availableInventory >= 1){
+        this.arrayCart.push(post)
+        post.availableInventory -= 1
+      }
+      else{
+        post.availableInventory = 0
+      }
+    },
+    showCheckout(){
+      this.showProduct = this.showProduct ? false : true;
+    },
+    cartItems(){
+      let showCart = this.arrayCart;
+      return showCart
+    },
+    removeItem(id){
+      console.log(id)
+      let lessons = this.arrayCart;
+      for(i = 0; i< lessons.length; i++){
+        if(i <= id){
+          lessons.pop(id)
+        }
+      }
+    },
+
+    sortMethod(obj1,obj2){
+      if(obj1.title === obj2.title) return 0;
+      if(obj1.title < obj2.title) return -1;
+      return 1;
+    },
+    sortMethodPrice(obj1,obj2){
+      if(obj1.price == obj2.price) return 0;
+      if(obj1.price < obj2.price) return -1;
+      return 1;
+    },
+    sortMethodName(obj1,obj2){
+      if(obj1.author === obj2.author) return 0;
+      if(obj1.author < obj2.author) return -1;
+      return 1;
+    },
+    sortMethodAc(obj1,obj2){
+      if(obj1.price < obj2.price) return 0;
+      if(obj1.price > obj2.price) return -1;
+      return 1;
+    },
+    sortMethodDc(obj1,obj2){
+      if(obj1.price > obj2.price) return 0;
+      if(obj1.price < obj2.price) return -1;
+      return 1;
+    }
+  },
+  computed: {
+    filteredList() {
+      return this.postList.filter(post => {
+        return post.title.toLowerCase().includes(this.search.toLowerCase())
+      })
+    },
+  }, 
+})
+      </Script>
+</body>
+</html>
